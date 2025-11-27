@@ -154,20 +154,62 @@ label{
     display:block;
     margin-top:5px
 }
+
+
+
+.draggable-list {
+    list-style: none; /* Fjern punktmerker */
+    padding: 0;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.draggable-item {
+    padding: 15px;
+    margin: 0;
+    background-color: #94B8E0;
+    border-bottom: 10px solid #eee;
+    cursor: move; /* Indikerer at elementet kan flyttes */
+    transition: transform 0.2s; /* Glatt overgang ved bevegelse */
+}
+
+/* Fjerner bunnmargen på det siste elementet slik at det ligger inntil bunnen av listen */
+.draggable-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Stil for elementet som dras */
+.dragging {
+    opacity: 0.5;
+    background-color: #e0f7fa; /* Lysere farge når det dras */
+}
+
+/* Stil for droppsone */
+.drop-placeholder {
+    height: 50px; /* Samme høyde som et vanlig element */
+    background-color: #b2ebf2;
+    border: 2px dashed #00bcd4;
+}
+
 #resultPage{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    min-height:100%;
+    /* Fjernet position: absolute; og top/left/width */
+    min-height: 100vh; /* Sikrer at den dekker hele skjermhøyden */
     background:rgba(255,255,255,.95);
     backdrop-filter:blur(5px);
-    display:none;
-    flex-direction:column;
-    align-items:center;
-    padding-top:50px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Sentrerer innholdet horisontalt */
+    justify-content: center; /* Sentrerer innholdet vertikalt */
+    
+    /* Fjernet padding-top: 50px; */
+    width: 100%; /* Legg til denne for å sikre full bredde */
     box-sizing:border-box;
-    z-index:100
+    z-index:100;
+
+    /* Hold display: none; for initial skjuling */
+    display: none; 
 }
 .result-box{
     background:#fff;
@@ -632,68 +674,16 @@ Løk og hvitløk er ferdig stekt når løken er
                             <label><input type="radio" name="q5_2" value="D"> De skifter kjønn etter noen år.</label>
                         </div>
 
-<div class="question">
-    <p>5.3) Plasser hendelsene nedenfor i den rekkefølgen de faktisk skjedde. Velg tallet 1 (først) til 4 (sist) fra menyen.</strong></p>
-    
-    <table class="rekkefolge-dropdown-table" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="border: 1px solid #ddd; padding: 10px; text-align: left; width: 80%;">Hendelse</th>
-                <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 20%;">Rekkefølge (1-4)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Methuselah blir kåret til verdens eldste akvariefisk.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q5_3a" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Methuselah blir fraktet til USA.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q5_3b" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Forskere finner ut at Methuselah er minst 92 år gammel.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q5_3c" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Lungefisken Granddad dør.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q5_3d" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="question" id="q5_3">
+    <p>5.3) Plasser hendelsene nedenfor i den rekkefølgen de faktisk skjedde, fra først (øverst) til sist (nederst). Klikk på teksten og flytt opp/ned.</p>
+    <ul class="draggable-list">
+        <li class="draggable-item" draggable="true" data-id="3">Methuselah blir kåret til verdens eldste akvariefisk.</li>
+        <li class="draggable-item" draggable="true" data-id="1">Methuselah blir fraktet til USA.</li>
+        <li class="draggable-item" draggable="true" data-id="4">Forskere finner ut at Methuselah er minst 92 år gammel.</li>
+        <li class="draggable-item" draggable="true" data-id="2">Lungefisken Granddad dør.</li>
+    </ul>
 </div>
+
 
                         <div class="question">
                             <p>5.4) Hvorfor er David T. Roberts med i denne teksten?</p>
@@ -778,88 +768,20 @@ Løk og hvitløk er ferdig stekt når løken er
                             <label><input type="radio" name="q6_2" value="D"> fordi de spiser andre sopper</label>
                         </div>
 
-<div class="question">
-    <p>6.3) Plasser setningene nedenfor i riktig rekkefølge, slik at de viser hvordan soppen cordyceps unilateralis formerer seg. Det som skjer først, skal ha nummer 1, og det som skjer sist, skal ha nummer 5.</p>
-    
-    <table class="rekkefolge-5-steg" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="border: 1px solid #ddd; padding: 10px; text-align: left; width: 70%;">Hendelse</th>
-                <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 30%;">Rekkefølge (1-5)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Soppen spiser mauren.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q6_3a" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Soppen tar kontroll over mauren.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q6_3b" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Soppen sniker seg inn i mauren.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q6_3c" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Mauren klatrer opp i en plante.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q6_3d" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 10px;">Soppen sprer frøene sine.</td>
-                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                    <select name="q6_3e" style="padding: 5px;">
-                        <option value="">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+<div class="question" id="q6_3">
+    <p>6.3) Plasser setningene nedenfor i riktig rekkefølge, slik at de viser hvordan soppen cordyceps unilateralis formerer seg, først (øverst) til sist (nederst). Klikk på teksten og flytt opp/ned.</p>
+    <ul class="draggable-list">
+        <li class="draggable-item" draggable="true" data-id="4">Soppen spiser mauren.</li>
+        <li class="draggable-item" draggable="true" data-id="2">Soppen tar kontroll over mauren.</li>
+        <li class="draggable-item" draggable="true" data-id="1">Soppen sniker seg inn i mauren.</li>
+        <li class="draggable-item" draggable="true" data-id="3">Mauren klatrer opp i en plante.</li>
+        <li class="draggable-item" draggable="true" data-id="5">Soppen sprer frøene sine.</li>
+    </ul>
 </div>
 
 
-                        <div class="question">
+                       <div class="question">
                             <p>6.4) Kan zombie-soppen cordyceps unilateralis kontrollere mennesker?</p>
                             <label><input type="radio" name="q6_4" value="A"> Ja, det skjer oftere og oftere.</label>
                             <label><input type="radio" name="q6_4" value="B"> Ja, men det skjer veldig sjelden.</label>
@@ -908,33 +830,31 @@ Løk og hvitløk er ferdig stekt når løken er
 
 <script>
     let currentPart = 1;
-    let currentQuestionIndex = 0; 
+    let currentQuestionIndex = 0;
     const totalParts = 6;
     const partIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part6'];
-
-
-const quizContent = document.getElementById('quizContent');
+    const quizContent = document.getElementById('quizContent');
 
 
     const questionsPerPart = {
-        1: 7, 
-        2: 7, 
-        3: 6, 
-        4: 5, 
+        1: 7,
+        2: 7,
+        3: 6,
+        4: 5,
         5: 4,
-        6: 5, 
+        6: 5,
     };
 
     const correctAnswers = {
         // DEL 1
-        'q1_1': 'C', // å få barn til å bry seg om resirkulering og miljøspørsmål
-        'q1_2': 'Ja', // Ja, deltakerne er fra 5.-7. trinn (ca. 10–13 år)
-        'q1_3': 'Ja', // Ja, deltakerne skal samle inn brukt aluminiumsemballasje.
-        'q1_4': 'Nei', // Nei, det koster ikke penger å delta i aksjonen.
-        'q1_5': 'C', // for å vise at det er veldig populært å være med
-        'q1_6': 'A', // arrangerer Aksjon Gjenvinning.
-        'q1_7': 'D', // å vekke interesse hos leseren
-        
+        'q1_1': 'C',
+        'q1_2': 'Ja',
+        'q1_3': 'Ja',
+        'q1_4': 'Nei',
+        'q1_5': 'C',
+        'q1_6': 'A',
+        'q1_7': 'D',
+
         // DEL 2
         'q2_1': 'D',
         'q2_2': 'A',
@@ -942,23 +862,23 @@ const quizContent = document.getElementById('quizContent');
         'q2_4': 'D',
         'q2_5': 'B',
         'q2_6': 'D',
-        'q2_7': 'B', 
+        'q2_7': 'B',
 
         // DEL 3
         'q3_1': 'A',
-        'q3_2': 'A', 
-        'q3_3': 'C', 
+        'q3_2': 'A',
+        'q3_3': 'C',
         'q3_4': 'B',
-        'q3_5': 'B', 
-        'q3_6': 'D', 
-        
+        'q3_5': 'B',
+        'q3_6': 'D',
+
         // DEL 4
         'q4_1': 'D',
-        'q4_2': 'C', 
+        'q4_2': 'C',
         'q4_3': 'B',
         'q4_4': "myk og blank",
         'q4_5': 'B',
-        
+
         // DEL 5
         'q5_1a': 'Vet IKKE',
         'q5_1b': 'Vet',
@@ -966,28 +886,342 @@ const quizContent = document.getElementById('quizContent');
         'q5_1d': 'Vet IKKE',
         'q5_1e': 'Vet',
         'q5_2': 'A',
-        'q5_3a': '3', 
-        'q5_3b': '1', 
-        'q5_3c': '4', 
-        'q5_3d': '2', 
-        'q5_4': 'C', 
+        'q5_4': 'C',
 
         // DEL 6
         'q6_1a': 'IKKE riktig',
         'q6_1b': 'Riktig',
         'q6_1c': 'Riktig',
         'q6_2': 'B',
-        'q6_3a': '4',
-        'q6_3b': '2',
-        'q6_3c': '1',
-        'q6_3d': '3',
-        'q6_3e': '5',
         'q6_4': 'C',
-        'q6_5': 'D', 
+        'q6_5': 'D',
     };
 
+    // NYTT: Kartlegger poeng for hvert spørsmåls-ID (Flervalg/Match/Sortering)
+    const questionPoints = {
+        // Del 5 (Sortering = 1p)
+        'q5_3': 1,
+        // Del 6
+        'q6_3': 1,
+    };
+
+    // Sorteringsspørsmål (ID: Korrekt rekkefølge av data-id verdier)
+    const correctOrder_q5_3 = ["1", "2", "3", "4"];
+    const correctOrder_q6_3 = ["1", "2", "3", "4", "5"];
+
+    // Definer alle sorteringsspørsmålene og deres fasit
+    const orderQuestionData = [
+        { id: 'q5_3', correct: correctOrder_q5_3 },
+        { id: 'q6_3', correct: correctOrder_q6_3 },
+    ];
+
+
+    // --- HENTE POENG & RESULTAT FUNKSJONER ---
+
     /**
-     * Hovedfunksjon for å oppdatere synligheten av spørsmål og navigasjonsknapper.
+     * Henter spørsmålsteksten basert på ID/navn.
+     */
+    function getQuestionText(qName, elementId) {
+        // 1. Forsøk å finne spørsmålselementet via name eller id
+        let questionElement = document.querySelector(`[name="${qName}"]`) || document.getElementById(elementId || qName);
+
+        if (questionElement) {
+            // 2. Finn den nærmeste overordnede div med klassen 'question'
+            let questionDiv = questionElement.closest('.question');
+
+            // 3. Hvis funnet, returner innholdet i det første <p>-elementet
+            if (questionDiv) {
+                const pElement = questionDiv.querySelector('p:first-child');
+                return pElement ? pElement.innerText : `Spørsmål ${qName}`;
+            }
+        }
+        // 4. Fallback
+        return `Spørsmål ${qName}`;
+    }
+
+    /**
+     * Henter ut rekkefølgen til elementene, sammenligner den og returnerer score og feil.
+     * @returns {{score: number, max: number, incorrect: Array}} Resultatobjekt.
+     */
+    function getResultForOrderQuestions() {
+        let orderScore = 0;
+        let max = 0;
+        const incorrect = [];
+
+        orderQuestionData.forEach(qData => {
+            const maxPoints = questionPoints[qData.id] || 1;
+            max += maxPoints;
+
+            // Prøver å finne listContainer i hele dokumentet, som er mer robust
+            const listContainer = document.getElementById(qData.id)?.querySelector('.draggable-list') || document.querySelector(`#${qData.id} .draggable-list`);
+
+            if (!listContainer) {
+                 const questionText = getQuestionText(qData.id);
+                 incorrect.push({
+                     name: qData.id,
+                     text: questionText,
+                     userAnswer: 'Feil: Fant ikke .draggable-list i HTML',
+                     correctAnswer: qData.correct.join(' &rarr; ')
+                 });
+                 return;
+            }
+
+            // Henter både data-ID (for retting) og teksten (for logging)
+            const items = Array.from(listContainer.querySelectorAll('.draggable-item'));
+            const userOrderIds = items.map(item => item.getAttribute('data-id'));
+            const userOrderText = items.map(item => item.innerText.trim());
+
+            const correctSequence = qData.correct;
+
+            const isCorrect = userOrderIds.length === correctSequence.length &&
+                userOrderIds.every((item, index) => item === correctSequence[index]);
+
+            if (isCorrect) {
+                orderScore += maxPoints;
+            } else {
+                const questionText = getQuestionText(qData.id);
+                incorrect.push({
+                    name: qData.id,
+                    text: questionText,
+                    userAnswer: userOrderText.length > 0 ? userOrderText.join(' &rarr; ') : 'Ikke besvart',
+                    correctAnswer: correctSequence.join(' &rarr; ')
+                });
+            }
+        });
+        return { score: orderScore, max: max, incorrect: incorrect };
+    }
+
+
+    /**
+     * Hovedfunksjon for å beregne total score og vise resultatsiden.
+     */
+    function checkQuiz() { // Tidligere calculateTotalScore()
+        // --- NYTT: Initialiserer variablene for å unngå ReferenceError ---
+        let totalScore = 0;
+        let maxScore = 0;
+        // --- SLUTT PÅ NYTT ---
+
+        const incorrect = [];
+        const form = document.getElementById('quizForm'); // Antar at du har et <form id="quizForm">
+
+        // 1. Beregn poeng for Sorteringsspørsmål
+        const orderResult = getResultForOrderQuestions();
+        totalScore += orderResult.score;
+        maxScore += orderResult.max;
+        incorrect.push(...orderResult.incorrect);
+
+        // 2. Beregn poeng for Flervalg/Match-spørsmål (1 poeng per spørsmål)
+        for (const qName in correctAnswers) {
+            maxScore++; // Hvert spørsmål i correctAnswers teller 1 poeng
+
+            const correctValue = correctAnswers[qName];
+            let userValue = '';
+
+            const inputs = form ? form.elements[qName] : document.querySelectorAll(`[name="${qName}"]`);
+
+            if (!inputs || (inputs.length === 0 && !inputs.value)) {
+                 // Håndterer hvis elementet ikke finnes
+                 incorrect.push({
+                    name: qName,
+                    text: getQuestionText(qName),
+                    userAnswer: 'HTML-element mangler',
+                    correctAnswer: correctValue
+                 });
+                 continue;
+            }
+
+            if (inputs.length > 0 && inputs[0].type === 'radio') {
+                // Radio-buttons
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].checked) {
+                        userValue = inputs[i].value;
+                        break;
+                    }
+                }
+            } else if (inputs.value !== undefined) {
+                // Select/Text/Annet enkelt-element
+                userValue = inputs.value;
+            } else if (inputs.length === 1 && inputs[0].value !== undefined) {
+                // Håndterer querySelectorAll for ett enkelt element
+                 userValue = inputs[0].value;
+            }
+            
+            if (userValue === correctValue) {
+                totalScore++; // Legger til poeng
+            } else {
+                incorrect.push({
+                    name: qName,
+                    text: getQuestionText(qName),
+                    userAnswer: userValue || 'Ikke besvart',
+                    correctAnswer: correctValue
+                });
+            }
+        }
+
+        // Vis resultat-siden
+        displayResult(totalScore, maxScore, incorrect);
+        console.log(`Endelig score: ${totalScore}/${maxScore}`);
+    }
+
+
+    // --- VISNING AV RESULTAT (Minimal endring for å sortere feil) ---
+
+    /**
+     * Viser resultatsiden, med all informasjon samlet i én "resultat-rute".
+     */
+    function displayResult(score, maxScore, incorrect) {
+        const quizContainer = document.getElementById('quizContent');
+
+        // Sjekker om resultContainer finnes eller oppretter den
+        let resultContainer = document.getElementById('resultContainer');
+        if (!resultContainer) {
+            resultContainer = document.createElement('div');
+            resultContainer.id = 'resultContainer';
+            document.body.appendChild(resultContainer);
+        }
+
+        // Skjul quizen og vis resultat-containeren
+        if (quizContainer) quizContainer.style.display = 'none';
+        resultContainer.style.display = 'block';
+
+        // Funksjon for å sortere ID-er som q1_1, q1_2a, q2_1, osv.
+        const sortIncorrect = (a, b) => {
+            const parseQid = (qid) => {
+                const match = qid.match(/q(\d+)_(\d+)([a-z])?/);
+                if (!match) return { part: 99, num: 99, sub: 'a' };
+                return {
+                    part: parseInt(match[1]),
+                    num: parseInt(match[2]),
+                    sub: match[3] || 'a'
+                };
+            };
+
+            const aData = parseQid(a.name);
+            const bData = parseQid(b.name);
+
+            if (aData.part !== bData.part) {
+                return aData.part - bData.part;
+            }
+
+            if (aData.num !== bData.num) {
+                return aData.num - bData.num;
+            }
+            return aData.sub.localeCompare(bData.sub);
+        };
+
+        incorrect.sort(sortIncorrect);
+
+
+        let html = `
+            <div class="result-card"> <h2 class="result-title">🎉 Prøven er fullført! 🎉</h2>
+
+                <div class="score-summary">
+                    <p>Du fikk <strong>${score}</strong> poeng av totalt <strong>${maxScore}</strong> mulige.</p>
+                </div>
+        `;
+
+        if (incorrect.length > 0) {
+            html += `
+                <div class="incorrect-answers-section">
+                    <h3 class="incorrect-title">❌ Feilaktige svar (${incorrect.length} totalt)</h3>
+                    <p class="guide-text">Gå gjennom svarene nedenfor for å se hva som var feil og hva som er riktig svar.</p>
+                    <ol class="incorrect-list">
+            `;
+
+            incorrect.forEach(item => {
+                const sanitizedText = item.text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                html += `
+                    <li class="incorrect-item">
+                        <h4>${sanitizedText} (${item.name})</h4>
+                        <p class="user-answer"><strong>Ditt svar:</strong> ${item.userAnswer}</p>
+                        <p class="correct-answer"><strong>Riktig svar:</strong> ${item.correctAnswer}</p>
+                    </li>
+                `;
+            });
+
+            html += `
+                    </ol>
+                </div>
+            `;
+        } else {
+            html += `
+                <div class="correct-box">
+                    <h3 class="correct-title">🥳 Gratulerer! Du fikk full pott! 🥳</h3>
+                </div>
+            `;
+        }
+
+        html += `</div>`; // Avslutter hovedruten
+
+        resultContainer.innerHTML = html;
+
+        // Skroll til toppen av resultatsiden
+        resultContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- NAVIGASJON FUNKSJONER ---
+
+    function goNext() { // Tidligere nextQuestion
+        const totalQuestions = questionsPerPart[currentPart];
+
+        if (currentQuestionIndex < totalQuestions - 1) {
+             currentQuestionIndex++;
+             updateQuestionVisibility();
+        } else if (currentPart < totalParts) {
+             showPart(currentPart + 1, true);
+        } else {
+             // Siste spørsmål i siste del -> Fullfør/Kalkuler poeng
+             checkQuiz(); // Kaller den nye/fiksete funksjonen her
+             return;
+        }
+    }
+
+    function goBack() { // Tidligere prevQuestion
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            updateQuestionVisibility();
+        } else if (currentPart > 1) {
+            const prevPartIndex = currentPart - 1;
+            const prevPartId = partIds[prevPartIndex - 1];
+            const prevPartElement = document.getElementById(prevPartId);
+
+            if (prevPartElement) {
+                const totalPrevQuestions = questionsPerPart[prevPartIndex]; // Bruker definert antall
+                showPart(prevPartIndex, false);
+                currentQuestionIndex = totalPrevQuestions - 1;
+            }
+            updateQuestionVisibility();
+        } else {
+            return;
+        }
+    }
+
+
+    function showPart(index, resetQuestion = true) {
+        if (index < 1 || index > totalParts) return;
+
+        partIds.forEach(id => {
+            const part = document.getElementById(id);
+            if (part) part.style.display = 'none';
+        });
+
+        const partToShow = document.getElementById(partIds[index - 1]);
+        if (partToShow) {
+            currentPart = index;
+
+            if (resetQuestion) {
+                currentQuestionIndex = 0;
+            }
+
+            partToShow.style.display = 'flex';
+            updateQuestionVisibility();
+            document.querySelector('.container')?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    /**
+     * Oppdaterer synligheten av spørsmål og knapper (FIXED submitBtn.onclick)
      */
     function updateQuestionVisibility() {
         const currentPartElement = document.getElementById(partIds[currentPart - 1]);
@@ -997,309 +1231,115 @@ const quizContent = document.getElementById('quizContent');
         const questionContainers = questionsContainer.querySelectorAll('.question');
         const totalQuestions = questionContainers.length;
 
-        // Skjul alle spørsmål og vis kun det aktive
         questionContainers.forEach((q, index) => {
             q.classList.remove('active');
             if (index === currentQuestionIndex) {
                 q.classList.add('active');
             }
         });
-        
-        // Håndtering av NAVIGASJONSKNAPPER
+
         const questionNavButtons = currentPartElement.querySelector('.question-navigation-buttons');
-        
+
         if (questionNavButtons) {
             const prevQBtn = questionNavButtons.querySelector('.prev-question-btn');
             const nextQBtn = questionNavButtons.querySelector('.next-question-btn');
             const nextPBtn = questionNavButtons.querySelector('.next-part-btn');
             const submitBtn = questionNavButtons.querySelector('.submit-btn');
-            
-            // --- Håndtering av venstre knapp: "Tilbake" ---
-            // Skjul "Tilbake" kun på første spørsmål i Del 1.
+
             if (currentQuestionIndex === 0 && currentPart === 1) {
                 prevQBtn.style.visibility = 'hidden';
             } else {
                 prevQBtn.style.visibility = 'visible';
             }
-            // --- Slutt på håndtering av venstre knapp ---
 
-
-            // --- Håndtering av høyre knapp: "Neste" eller "Fullfør prøven" ---
             if (currentQuestionIndex === totalQuestions - 1) {
-                // Siste spørsmål i denne delen
-                nextQBtn.style.display = 'none'; 
-                
+                nextQBtn.style.display = 'none';
+
                 if (currentPart < totalParts) {
-                    // Ikke siste del: Vis "Neste" (for å gå til Neste tekst)
                     nextPBtn.style.display = 'block';
                     submitBtn.style.display = 'none';
                 } else {
-                    // Siste del: Vis "Fullfør prøven"
                     nextPBtn.style.display = 'none';
                     submitBtn.style.display = 'block';
                 }
             } else {
-                // Ikke siste spørsmål i denne delen: Vis "Neste" (for å gå til Neste spørsmål)
                 nextQBtn.style.display = 'block';
                 nextPBtn.style.display = 'none';
                 submitBtn.style.display = 'none';
             }
+
+            // KNYTTER TIL RIKTIG FUNKSJON
+            prevQBtn.onclick = goBack; // Bruker goBack
+            nextQBtn.onclick = goNext; // Bruker goNext
+            nextPBtn.onclick = goNext; // Bruker goNext
+            submitBtn.onclick = checkQuiz; // <-- FIX: Knytter til checkQuiz
         }
-        
-        // Skroll opp i spørsmåls-containeren når spørsmål byttes for bedre synlighet
+
         if (questionsContainer) {
             questionsContainer.scrollTop = 0;
         }
     }
 
-    /**
-     * Viser den aktuelle delen/teksten.
-     * @param {number} index - Delnummeret som skal vises (1 til totalParts).
-     * @param {boolean} resetQuestion - Angir om spørsmålsindeksen skal settes til 0 (standard: true).
-     */
-    function showPart(index, resetQuestion = true) {
-        // Sikkerhetssjekk
-        if (index < 1 || index > totalParts) return;
 
-        // Skjul alle deler
-        partIds.forEach(id => {
-            const part = document.getElementById(id);
-            if (part) part.style.display = 'none';
+    // --- DRA-OG-SLIPP FUNKSJONALITET (Uendret) ---
+
+    let draggedItem = null;
+
+    function handleDragStart(e) {
+        draggedItem = this;
+        e.dataTransfer.setData('text/plain', this.dataset.id);
+        setTimeout(() => this.classList.add('dragging'), 0);
+    }
+
+    function handleDragEnd() {
+        this.classList.remove('dragging');
+        draggedItem = null;
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+
+        const listContainer = this.parentElement;
+
+        if (this !== draggedItem && this.parentElement === draggedItem.parentElement) {
+            const rect = this.getBoundingClientRect();
+            const next = (e.clientY - rect.top) / rect.height > 0.5;
+
+            listContainer.insertBefore(draggedItem, next ? this.nextSibling : this);
+        }
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+    }
+
+    /**
+     * Setter opp dra-og-slipp-funksjonalitet for en spesifikk liste.
+     */
+    function setupDragAndDrop(listContainer) {
+        const listItems = listContainer.querySelectorAll('.draggable-item');
+
+        listItems.forEach(item => {
+            item.setAttribute('draggable', 'true');
+
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragend', handleDragEnd);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('drop', handleDrop);
         });
-
-        // Vis den forespurte delen
-        const partToShow = document.getElementById(partIds[index - 1]);
-        if (partToShow) {
-            currentPart = index;
-
-            if (resetQuestion) {
-                currentQuestionIndex = 0; 
-            }
-            
-            partToShow.style.display = 'flex';
-            updateQuestionVisibility(); 
-            // Skroll til toppen av siden/containeren for en ren overgang
-            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-    
-    // --- NAVIGASJONSFUNKSJONER (Tilbake/Neste) ---
-
-    /**
-     * Håndterer logikken for "Tilbake"-knappen.
-     */
-    function goBack() {
-        if (currentQuestionIndex > 0) {
-            // Gå tilbake ett spørsmål i samme del
-            currentQuestionIndex--;
-            updateQuestionVisibility();
-        } else if (currentPart > 1) {
-            // Gå tilbake til siste spørsmål i forrige del (Linjenavigasjon)
-            prevPartLine(); 
-        }
     }
 
-    /**
-     * Går til siste spørsmål i forrige del.
-     */
-    function prevPartLine() {
-        if (currentPart > 1) {
-            const newPartIndex = currentPart - 1;
-            
-            // Finner indeksen til det siste spørsmålet i den *nye* delen (som blir nåværende del)
-            const prevPartQuestions = questionsPerPart[newPartIndex];
-            currentQuestionIndex = prevPartQuestions - 1; 
-            
-            // Bytter del uten å resette spørsmålsindeksen
-            showPart(newPartIndex, false);
-        }
-    }
-
-    /**
-     * Håndterer logikken for "Neste"-knappen.
-     */
-    function goNext() {
-        const totalQuestions = questionsPerPart[currentPart];
-
-        if (currentQuestionIndex < totalQuestions - 1) {
-            // Gå til neste spørsmål i samme del
-            currentQuestionIndex++;
-            updateQuestionVisibility();
-        } else if (currentPart < totalParts) {
-            // Gå til første spørsmål i neste del (Neste tekst)
-            showPart(currentPart + 1, true); // true = reset spørsmålsindeks til 0
-        } 
-        // Hvis siste spørsmål i siste del, gjør ingenting (Submit-knappen er synlig)
-    }
-
-    // --- SLUTT PÅ NAVIGASJONSFUNKSJONER ---
-    
-    /**
-     * Funksjon for å sjekke quizen
-     */
-function checkQuiz() {
-    let score = 0;
-    let totalQuestions = 0;
-    const incorrect = [];
-    const form = document.getElementById('quizForm');
-
-    // Går gjennom alle riktige svar i 'correctAnswers'
-
-for (const qName in correctAnswers) {
-totalQuestions++;
-        
-        // ... (Annen kode utelatt for klarhet)
-        
-        const correctValue = correctAnswers[qName];
-        let userValue = '';
-
-        // Finner input-elementene for det aktuelle spørsmålet
-        const inputs = form.elements[qName];
-        
-        if (!inputs) {
-            // Hopper over hvis elementet ikke finnes (sikkerhetssjekk)
-            continue; 
-        }
-
-        if (inputs.length > 0 && inputs[0].type === 'radio') {
-            // SCENARIO 1: Radio-buttons (samme navn, flere elementer)
-            // Løkke for å finne den avkryssete radio-knappen
-            for (let i = 0; i < inputs.length; i++) {
-                if (inputs[i].checked) {
-                    userValue = inputs[i].value;
-                    break;
-                }
-            }
-        } else if (inputs.value !== undefined) {
-            // SCENARIO 2: Select/Text/Annet enkelt-element (har en direkte .value)
-            // Dette inkluderer nedtrekksmenyer (<select>) og tekstfelter (<input type="text">).
-            userValue = inputs.value;
-        }
-
-
-
-        // Sjekker om svaret er riktig
-        if (userValue === correctValue) {
-            score++;
-        } else {
-            // 🐛 KORRIGERT LOGIKK FOR Å FINNE SPØRSMÅLSTEKSTEN 🐛
-            let questionElement = document.querySelector(`[name="${qName}"]`);
-            if (questionElement) {
-                // Finner den nærmeste overordnede div med klassen 'question'
-                let questionDiv = questionElement.closest('.question');
-                
-                // Fallback for elementer inne i en tabell som ikke er direkte i .question
-                if (!questionDiv) {
-                    let table = questionElement.closest('table');
-                    if (table) {
-                        questionDiv = table.closest('.question');
-                    }
-                }
-                
-                const questionText = questionDiv ? questionDiv.querySelector('p:first-child').innerText : `Spørsmål ${qName}`;
-                
-                incorrect.push({
-                    name: qName,
-                    text: questionText,
-                    userAnswer: userValue || 'Ikke besvart',
-                    correctAnswer: correctValue
-                });
-            } else {
-                // Fallback for spørsmål som ikke finnes (bør ikke skje)
-                incorrect.push({
-                    name: qName,
-                    text: `Spørsmål ${qName}`,
-                    userAnswer: userValue || 'Ikke besvart',
-                    correctAnswer: correctValue
-                });
-            }
-        }
-    }
-
-    // Vis resultat-siden
-    displayResult(score, totalQuestions, incorrect);
-}
-
-
-/**
- * Oppdaterer HTML-innholdet på resultatsiden og gjør den synlig.
- * @param {number} score - Antall riktige svar.
- * @param {number} totalQuestions - Totalt antall spørsmål.
- * @param {Array<Object>} incorrect - Liste over feilaktige svar.
- */
-
-function displayResult(score, totalQuestions, incorrect) {
-    const resultPage = document.getElementById('resultPage');
-    const finalScore = document.getElementById('finalScore');
-    const incorrectAnswersDiv = document.getElementById('incorrectAnswers');
-    const incorrectAnswersList = document.getElementById('incorrectAnswers');
-    const allCorrectMessage = document.getElementById('allCorrectMessage');
-
-
-
-
-
-
-    // 1. Vis poengsummen
-    finalScore.textContent = `${score} av ${totalQuestions} riktige!`;
-    
-    // 2. Vis feilaktige svar
-    // Tømmer listen først (beholder h3)
-    incorrectAnswersList.querySelectorAll('.incorrect-item').forEach(e => e.remove());
-    
-    if (incorrect.length > 0) {
-        incorrectAnswersList.querySelector('h3').style.display = 'block';
-        allCorrectMessage.style.display = 'none';
-
-        incorrect.forEach(item => {
-            const itemHtml = document.createElement('div');
-            itemHtml.className = 'incorrect-item';
-            
-            // Finner spørsmålsnummeret fra teksten for å gi en ryddig overskrift
-            const questionNumberMatch = item.text.match(/^(\d+\.\d+)\)/);
-            const questionNumber = questionNumberMatch ? questionNumberMatch[1] : item.name;
-
-            itemHtml.innerHTML = `
-                <p class="question-text">Oppgave ${questionNumber}: ${item.text.replace(/^(\d+\.\d+)\)/, '').trim()}</p>
-                <p><strong>Ditt svar:</strong> ${item.userAnswer}</p>
-                <p style="color: #27ae60;"><strong>Riktig svar:</strong> ${item.correctAnswer}</p>
-            `;
-            incorrectAnswersList.appendChild(itemHtml);
-        });
-    } else {
-        // Viser melding om at alle svar er riktige
-        incorrectAnswersList.querySelector('h3').style.display = 'none';
-        allCorrectMessage.style.display = 'block';
-    }
-
-    // Viser resultatsiden over skjemaet
-    resultPage.style.display = 'flex';
-}
-
-/**
- * Funksjon for å starte prøven på nytt.
- * Laster siden på nytt for en fullstendig tilbakestilling.
- */
-function restartQuiz() {
-    window.location.reload();
-}
-
-/**
- * Funksjon for å lukke vinduet (fungerer kun i vinduer åpnet av skript).
- */
-function closeWindow() {
-    if (window.opener) {
-        window.close();
-    } else {
-        alert("Kan ikke lukke vinduet automatisk. Lukk fanen/vinduet manuelt.");
-    }
-}
-
-    // Initialiser: Vis første del når siden lastes
+    // Kjøres når DOM-en er fullastet
     document.addEventListener('DOMContentLoaded', () => {
+        const allDraggableLists = document.querySelectorAll('.draggable-list');
+
+        allDraggableLists.forEach(list => {
+            setupDragAndDrop(list);
+        });
+
+        // Sørg for at quizen starter
         showPart(1);
     });
-
 
 </script>
 
